@@ -11,6 +11,8 @@ This report aims to identify the weather events in the United States that are mo
 Packages needed for Analysis
 ```{r message=FALSE, warning=FALSE}
 library(readr)
+library(lubridate)
+library(dplyr)
 ```
 
 
@@ -25,9 +27,13 @@ data <- read_csv("data.csv.bz2")
 ```
   
 ###Pairing down to the data needed  
-The analysis does not require date, time, who reported the event, or remarks.  Maintaining state to as we are looking at effects across the US, but the more specific location fields are not needed.  
+Filter data to start with 1996 when all events began being recorded to prevent inflated sums for earlier timeframes when not all events were recorded.  The analysis does not require date, time, who reported the event, or remarks.  Maintaining state to as we are looking at effects across the US, but the more specific location fields are not needed.  
 ```{r}
-needed<-data[,c(7, 23,24,25,26,27,28)]
+data %>%
+data1 <- mutate(data,date=mdy_hms(BGN_DATE)) %>%
+data2<-  mutate(data1,year=year(date)) %>%
+data3<-  filter(data2,year>1995) %>%
+data4<-  select(data3, 7,23,24,25,26,27,28)
 ```
 
   
