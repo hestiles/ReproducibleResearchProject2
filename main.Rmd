@@ -18,10 +18,10 @@ library(dplyr)
 
 ## Data Processing  
   
-The website for this course provided Storm Data from NOAA for the years 1950 to 2011.  [link](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2)   
+The website for this course provided Storm Data from NOAA for the years 1950 to 2011.  [Data is available here](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2)   
   
 ### Downloading and Reading the Data  
-```{r setoptions, cache=TRUE}
+```{r setoptions, cache=TRUE, message=FALSE}
 download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2", destfile="data.csv.bz2")
 data <- read_csv("data.csv.bz2")
 ```
@@ -299,7 +299,7 @@ needed$events[needed$events=="hurricane edouard"]<-"hurricane (typhoon)"
 needed$events[needed$events=="ice/snow"]<-"winter storm"
 ```
 
-###After adjusting the event type for many, I filtered out rows that could not easily by mapped to one of the 48 unique event types in the supplemental material at [link](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf)  
+###After adjusting the event type for many, I filtered out rows that could not easily by mapped to one of the 48 unique event types in the supplemental material [located here](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf)  
 ```{r}
 small<-filter(needed, events=="astronomical low tide" | events=="avalanche"|events=="blizzard"|events=="coastal flood"|events=="cold/wind chill"| events=="debris flow"|events=="dense fog"| events=="dense smoke"| events=="drought"|events=="dust devil"|events=="dust storm"| events=="excessive heat"|events=="extreme cold/wind chill"|events=="flash flood"| events=="flood"| events=="frost/freeze"| events=="funnel cloud"| events=="freezing fog"|events=="hail"| events=="heat"| events=="heavy rain"|events=="heavy snow"|events=="high surf"|events=="high wind"|events=="hurricane (typhoon)"|events=="ice storm"|events=="lake-effect snow"|events=="lakeshore flood"|events=="lightning"|events=="marine hail"|events=="marine high wind"|events=="marine strong wind"|events=="marine thunderstorm wind"|events=="rip current"|events=="seiche"|events=="storm surge/tide"|events=="strong wind"| events=="thunderstorm wind"| events=="tornado"|events=="tropical depression"| events=="tsunami"|events=="volcanic ash"|events=="waterspout"| events=="wildfire"| events=="winter storm"| events =="winter weather")
 ```
