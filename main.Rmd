@@ -9,7 +9,7 @@ output: html_document
 This report aims to identify the weather events in the United States that are most harmful with respect to population health and have the greatest economic consequences.   To identify these items, data from the U.S. National Oceanic and Atmospheric Administrations's (NOAA) storm database is used.  The data tracks characteristics of major storms and weather events in the U.S. including date, location, fatalities, injuries, and property damage.  From this data we identified that between January 1996 and November 2011.....
 
 Packages needed for Analysis
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(readr)
 ```
 
