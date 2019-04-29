@@ -1,0 +1,12 @@
+---
+title: "ReproducibleResearchProject2"
+output: html_document
+---
+# Effects of weather events in the United States  
+
+##Synopsis  
+
+## Data Processing  
+
+## Results  
+
