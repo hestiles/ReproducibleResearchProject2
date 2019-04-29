@@ -24,6 +24,12 @@ download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.
 data <- read_csv("data.csv.bz2")
 ```
   
+###Pairing down to the data needed  
+The analysis does not require date, time, who reported the event, or remarks.  Maintaining state to as we are looking at effects across the US, but the more specific location fields are not needed.  
+```{r}
+needed<-data[,c(7, 23,24,25,26,27,28)]
+```
+
   
 ## Results  
 
