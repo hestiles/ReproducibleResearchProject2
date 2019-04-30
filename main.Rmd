@@ -329,4 +329,69 @@ harm%>%
 ```
 
 ###Economic Consequences  
+In order to determine the greatest economic consequence of weather events we first need to compute the dollar value of the crop damage and property damage.  
+
+First, we can remove any events that have no damage.
+```{r}
+econ<- small%>%
+        filter(CROPDMG>0 & PROPDMG>0)
+```
+
+Next, we need adjust the dollar values of the damage to be comparable.  
+```{r}
+
+propk<- econ%>%
+        filter(PROPDMGEXP=="K") %>%
+        mutate(prop=PROPDMG*1000)  
+
+propm<-econ%>%
+        filter(PROPDMGEXP=="M")%>%
+        mutate(prop=PROPDMG*1000000)
+
+propB<-econ%>%
+        filter(PROPDMGEXP=="B") %>%
+        mutate(prop=PROPDMG*1000000000)
+
+cropk<- econ%>%
+        filter(CROPDMGEXP=="K") %>%
+        mutate(prop=CROPDMG*1000)  
+
+cropm<-econ%>%
+        filter(CROPDMGEXP=="M")%>%
+        mutate(prop=CROPDMG*1000000)
+
+cropB<-econ%>%
+        filter(CROPDMGEXP=="B") %>%
+        mutate(prop=CROPDMG*1000000000)
+```
+
+Next, we combine those to get an aggregate of property damage per event type.
+```{r}
+prop<-rbind(propk, propm, propB)
+prop<-aggregate(prop$prop, by=prop['events'], sum)
+```
+
+Then, we combine to get an aggregate of crop damage per event type
+```{r}
+crop<-rbind(cropk, cropm, cropB)
+crop<-aggregate(crop$prop, by=crop['events'], sum)
+```
+
+Combine the two into one object.
+```{r}
+damage<-full_join(prop, crop, by="events")
+```
+
+Combine the damage values.
+```{r}
+damage<- damage%>%
+        mutate(cost=x.x+x.y)%>%
+        arrange(desc(cost))
+```
+
+Plot the results
+```{r}
+par(mar=c(5,12,4,2))
+barplot(log(damage$cost), horiz = TRUE, main="Economic Damage from US Weather Events", sub="Floods have caused the most economic damage.", names.arg = damage$events, las=2, col=grey.colors(22),axes=FALSE)
+```
 
