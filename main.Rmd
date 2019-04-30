@@ -1,12 +1,9 @@
----
-title: "ReproducibleResearchProject2"
-output: html_document
----
+
 # Effects of weather events in the United States  
 
 ##Synopsis  
   
-This report aims to identify the weather events in the United States that are most harmful with respect to population health and have the greatest economic consequences.   To identify these items, data from the U.S. National Oceanic and Atmospheric Administrations's (NOAA) storm database is used.  The data tracks characteristics of major storms and weather events in the U.S. including date, location, fatalities, injuries, and property damage.  From this data we identified 8 weather events causeing the greatest threat to opulation health between January 1996 and November 2011 while floods caused the greatest economic impact.
+This report aims to identify the weather events in the United States that are most harmful with respect to population health and have the greatest economic consequences.   To identify these items, data from the U.S. National Oceanic and Atmospheric Administrations's (NOAA) storm database is used.  The data tracks characteristics of major storms and weather events in the U.S. including date, location, fatalities, injuries, and property damage.  From this data we identified 8 weather events causing the greatest threat to opulation health between January 1996 and November 2011 along with the event that caused the greatest economic impact.
 
 Packages needed for Analysis
 ```{r message=FALSE, warning=FALSE}
@@ -28,8 +25,8 @@ data <- read_csv("data.csv.bz2")
 ```
   
 ###Pairing down to the data needed  
-Filter data to start with 1996 when all events began being recorded to prevent inflated sums for earlier timeframes when not all events were recorded.  The analysis does not require date, time, who reported the event, or remarks.  Maintaining state to as we are looking at effects across the US, but the more specific location fields are not needed.  
-```{r set options, message=FALSE}
+Filter data to start with 1996 when all events began being recorded to prevent inflated sums for earlier timeframes when not all events were recorded.  The analysis does not require date, time, who reported the event, or remarks.  
+```{r set options, message=FALSE, warning=FALSE}
 needed<-mutate(data,date=mdy_hms(BGN_DATE)) %>%
         mutate(year=year(date)) %>%
         filter(year>1995) %>%
@@ -37,6 +34,7 @@ needed<-mutate(data,date=mdy_hms(BGN_DATE)) %>%
 ```
 
 ###Identify unique event types
+Manually reviewed event types in the data and adjusted them to match the 48 unique event types identified by NOAA.
 ```{r}
 needed<-mutate(needed, events=tolower(EVTYPE))
 needed$events[needed$events=="tstm wind"]<-"thunderstorm wind"
@@ -51,7 +49,6 @@ needed$events[needed$events=="snow"]<-"heavy snow"
 needed$events[needed$events=="freeze"]<-"frost/freeze"
 needed$events[needed$events=="snow squalls"]<-"heavy snow"
 needed$events[needed$events=="coastal flooding"]<-"coastal flood"
-
 needed$events[needed$events=="coastalflood"]<-"coastal flood"
 needed$events[needed$events=="erosion/cstl flood"]<-"coastal flood"
 needed$events[needed$events=="wet month"]<-"heavy rain"
@@ -293,14 +290,13 @@ needed$events[needed$events=="early snowfall"]<-"heavy snow"
 needed$events[needed$events=="unseasonably cool"]<-"extreme cold/wind chill"
 needed$events[needed$events=="cold and snow"]<-"winter storm"
 needed$events[needed$events=="unseasonably cold"]<-"extreme cold/wind chill"
-
 needed$events[needed$events=="wind"]<-"high wind"
 needed$events[needed$events=="hot and dry"]<-"drought"
 needed$events[needed$events=="hurricane edouard"]<-"hurricane (typhoon)"
 needed$events[needed$events=="ice/snow"]<-"winter storm"
 ```
 
-###After adjusting the event type for many, I filtered out rows that could not easily by mapped to one of the 48 unique event types in the supplemental material [located here](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf)  
+###After adjusting many event types present in the data, I filtered out rows that could not easily by mapped to one of the 48 unique event types in the supplemental material [located here](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf).  
 ```{r}
 small<-filter(needed, events=="astronomical low tide" | events=="avalanche"|events=="blizzard"|events=="coastal flood"|events=="cold/wind chill"| events=="debris flow"|events=="dense fog"| events=="dense smoke"| events=="drought"|events=="dust devil"|events=="dust storm"| events=="excessive heat"|events=="extreme cold/wind chill"|events=="flash flood"| events=="flood"| events=="frost/freeze"| events=="funnel cloud"| events=="freezing fog"|events=="hail"| events=="heat"| events=="heavy rain"|events=="heavy snow"|events=="high surf"|events=="high wind"|events=="hurricane (typhoon)"|events=="ice storm"|events=="lake-effect snow"|events=="lakeshore flood"|events=="lightning"|events=="marine hail"|events=="marine high wind"|events=="marine strong wind"|events=="marine thunderstorm wind"|events=="rip current"|events=="seiche"|events=="storm surge/tide"|events=="strong wind"| events=="thunderstorm wind"| events=="tornado"|events=="tropical depression"| events=="tsunami"|events=="volcanic ash"|events=="waterspout"| events=="wildfire"| events=="winter storm"| events =="winter weather")
 ```
