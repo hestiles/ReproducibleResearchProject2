@@ -28,7 +28,7 @@ data <- read_csv("data.csv.bz2")
   
 ###Pairing down to the data needed  
 Filter data to start with 1996 when all events began being recorded to prevent inflated sums for earlier timeframes when not all events were recorded.  The analysis does not require date, time, who reported the event, or remarks.  Maintaining state to as we are looking at effects across the US, but the more specific location fields are not needed.  
-```{r}
+```{r set options, message=FALSE}
 needed<-mutate(data,date=mdy_hms(BGN_DATE)) %>%
         mutate(year=year(date)) %>%
         filter(year>1995) %>%
