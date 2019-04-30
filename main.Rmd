@@ -306,4 +306,26 @@ small<-filter(needed, events=="astronomical low tide" | events=="avalanche"|even
 
   
 ## Results  
+###Population Health
+
+In order to determine how harmful weather events are to ppulation health, we need to look at the fatalaties and injuries that occur. First, I aggregate the events by the sum of fatalities and injuries.  
+```{r}
+harm<-aggregate(small[3:4], by=small['events'], sum)
+
+
+```
+Next, I remove events that have no fatalities or injuries.   
+```{r}
+harm<-harm%>%
+        filter(FATALITIES>0 & INJURIES>0)
+
+```
+Next, I look at a summary of harm and decide to filter by the mean of each resulting in 8 weather events causing the greatest harm to population health.
+```{r}
+harmsummary<-summary(harm)
+harm%>%
+        filter(FATALITIES>187 & INJURIES>1240)
+```
+
+###Economic Consequences  
 
